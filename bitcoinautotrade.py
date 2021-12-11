@@ -3,9 +3,9 @@ import pyupbit
 import datetime
 import requests
 
-access = "sAs0ruRpqYGZPmdSryQs5Aj9xTJG6twiuCdWxcoy"
-secret = "IzlKVHxnjNBIbgPrCcfQVLlUW48W7CxejxOtww9E"
-myToken = "xoxb-2798363804053-2798367938133-S6rxq5cjJcJh264oXG7ZwrEf"
+access = "your access code"
+secret = "your secret code"
+myToken = "your slack token"
 
 TargetVolatility = 0.05 #타겟 변동성 5%
 NumOfCoins = 1 #코인 개수
