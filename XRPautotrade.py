@@ -5,8 +5,8 @@ import requests
 import schedule
 from fbprophet import Prophet
 
-access = "sAs0ruRpqYGZPmdSryQs5Aj9xTJG6twiuCdWxcoy"
-secret = "IzlKVHxnjNBIbgPrCcfQVLlUW48W7CxejxOtww9E"
+access = "your access code"
+secret = "your secret code"
 myToken = "what is your token"
 
 TargetVolatility = 0.05 #target volatility 5%
