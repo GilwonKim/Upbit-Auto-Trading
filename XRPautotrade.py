@@ -108,6 +108,7 @@ while True:
             #print("ma5",ma5)
             current_price = get_current_price("KRW-XRP")
             print("Current Price",current_price)
+            print("Predicted Price",predicted_close_price)
 
             if target_price < current_price and current_price < predicted_close_price:
                 krw = get_balance("KRW")
