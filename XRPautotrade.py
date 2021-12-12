@@ -95,7 +95,8 @@ post_message(myToken, "#breakthru", "autotrade start")
 while True:
     try:
         now = datetime.datetime.now()
-        start_time = get_start_time("KRW-XRP") - datetime.timedelta(hours=8) #새벽 1시에 매수 시작
+        start_time = get_start_time("KRW-XRP")
+        start_time = start_time - datetime.timedelta(hours=8)  #새벽 1시에 매수 시작
         end_time = start_time + datetime.timedelta(hours=9) # 오전 9시에 매도
         schedule.run_pending()
 
