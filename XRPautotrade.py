@@ -10,7 +10,7 @@ secret = "your secret code"
 myToken = "what is your token"
 
 TargetVolatility = 0.05 #target volatility 5%
-NumOfCoins = 2 #number of coins
+NumOfCoins = 3 #number of coins
 
 def post_message(token, channel, text):
     """슬랙 메시지 전송"""
@@ -95,9 +95,9 @@ post_message(myToken, "#breakthru", "autotrade start")
 while True:
     try:
         now = datetime.datetime.now()
-        start_time = get_start_time("KRW-XRP")
-        start_time = start_time - datetime.timedelta(hours=8)  #새벽 1시에 매수 시작
-        end_time = start_time + datetime.timedelta(hours=9) # 오전 9시에 매도
+        start_time_1 = get_start_time("KRW-XRP")
+        start_time = start_time_1 - datetime.timedelta(hours=8)  #새벽 1시에 매수 시작
+        end_time = start_time_1 + datetime.timedelta(hours=8) # 오전 9시에 매도
         schedule.run_pending()
 
         if start_time < now < end_time - datetime.timedelta(seconds=10):
