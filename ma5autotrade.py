@@ -73,7 +73,7 @@ while True:
         now = datetime.datetime.now()
         start_time_1 = get_start_time("KRW-OMG")
         start_time = start_time_1 - datetime.timedelta(hours=8)  #새벽 1시에 매수 시작
-        end_time = start_time_1 + datetime.timedelta(hours=8) # 오전 9시에 매도
+        end_time = start_time_1 + datetime.timedelta(day=1) # 오전 9시에 매도
         
 
         if start_time < now < end_time - datetime.timedelta(seconds=10):
