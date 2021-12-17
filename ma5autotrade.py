@@ -10,7 +10,7 @@ secret = "your secret code"
 myToken = "what is your token"
 
 TargetVolatility = 0.05 #target volatility 5%
-NumOfCoins = 3 #number of coins
+NumOfCoins = 2 #number of coins
 
 def post_message(token, channel, text):
     """슬랙 메시지 전송"""
@@ -61,34 +61,12 @@ def get_current_price(ticker):
     """현재가 조회"""
     return pyupbit.get_orderbook(ticker=ticker)["orderbook_units"][0]["ask_price"]
 
-predicted_close_price = 0
-def predict_price(ticker):
-    """Prophet으로 당일 종가 가격 예측"""
-    global predicted_close_price
-    df = pyupbit.get_ohlcv(ticker, interval="minute60")
-    df = df.reset_index()
-    df['ds'] = df['index']
-    df['y'] = df['close']
-    data = df[['ds','y']]
-    model = Prophet()
-    model.fit(data)
-    future = model.make_future_dataframe(periods=24, freq='H')
-    forecast = model.predict(future)
-    closeDf = forecast[forecast['ds'] == forecast.iloc[-1]['ds'].replace(hour=9)]
-    if len(closeDf) == 0:
-        closeDf = forecast[forecast['ds'] == data.iloc[-1]['ds'].replace(hour=9)]
-    closeValue = closeDf['yhat'].values[0]
-    predicted_close_price = closeValue
-predict_price("KRW-OMG")
-schedule.every().hour.do(lambda: predict_price("KRW-OMG"))
-
-
 # 로그인
 upbit = pyupbit.Upbit(access, secret)
-print("autotrade start")
+print("ma5 autotrade start")
 
 #시작 메세지 슬랙 전송
-post_message(myToken, "#breakthru", "autotrade start")
+post_message(myToken, "#breakthru", "ma5 autotrade start")
 
 
 # 자동매매 시작
@@ -105,20 +83,20 @@ while True:
             print("Start Time",start_time)
             print("End Time", end_time)
             print("Target Price",target_price)
-            #ma5 = get_ma5("KRW-OMG")
-            #print("ma5",ma5)
+            ma5 = get_ma5("KRW-OMG")
+            print("ma5",ma5)
             current_price = get_current_price("KRW-OMG")
             print("Current Price",current_price)
             print("Predicted Price",predicted_close_price)
 
-            if target_price < current_price and current_price < predicted_close_price:
+            if target_price < current_price and ma5 < current_price:
                 krw = get_balance("KRW")
                 coins = krw / NumOfCoins
                 print("krw")
                 #volatility = get_volatility("KRW-OMG")
                 #print("volatility")
                 if krw > 5000:
-                    buy_result = upbit.buy_market_order("KRW-OMG", coins * 0.9995) #TargetVolatility/volatility/NumOfCoins*krw*0.9995,
+                    buy_result = upbit.buy_market_order("KRW-OMG", coins * 0.9995)
                     post_message(myToken, "#breakthru", "OMG buy : " +str(buy_result))
         else:
             omg = get_balance("OMG")
