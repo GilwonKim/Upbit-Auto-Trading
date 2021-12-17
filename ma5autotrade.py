@@ -74,7 +74,7 @@ while True:
         start_time_1 = get_start_time("KRW-OMG")
         start_time = start_time_1 - datetime.timedelta(hours=8)  #새벽 1시에 매수 시작
         end_time = start_time_1 + datetime.timedelta(hours=8) # 오전 9시에 매도
-        schedule.run_pending()
+        
 
         if start_time < now < end_time - datetime.timedelta(seconds=10):
             target_price = get_target_price("KRW-OMG", 0.5)
@@ -85,7 +85,6 @@ while True:
             print("ma5",ma5)
             current_price = get_current_price("KRW-OMG")
             print("Current Price",current_price)
-            print("Predicted Price",predicted_close_price)
 
             if target_price < current_price and ma5 < current_price:
                 krw = get_balance("KRW")
