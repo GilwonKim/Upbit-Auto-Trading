@@ -2,8 +2,6 @@ import time
 import pyupbit
 import datetime
 import requests
-import schedule
-from fbprophet import Prophet
 
 access = "your access code"
 secret = "your secret code"
