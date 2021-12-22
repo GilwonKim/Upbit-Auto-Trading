@@ -2,7 +2,6 @@ import time
 import pyupbit
 import datetime
 import requests
-import schedule
 
 access = "Your upbit access key"
 secret = "Your Upbit secret key"
