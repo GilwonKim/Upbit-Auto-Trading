@@ -126,7 +126,7 @@ while True:
             if sell > 5000/get_current_price("KRW-ETH"):
                 sell_result = upbit.sell_market_order("KRW-ETH", sell)
                 current_price = get_current_price("KRW-ETH")
-                print("OMG sold at",current_price)
+                print("ETH sold at",current_price)
                 post_message(myToken, "#breakthru", "ETH sell : " +str(sell_result))
         time.sleep(1)
     except Exception as e:
