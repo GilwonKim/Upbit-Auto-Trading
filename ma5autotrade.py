@@ -8,7 +8,7 @@ secret = "Your Upbit secret key"
 myToken = "Your Slack API"
 
 TargetVolatility = 0.05 #target volatility 5%
-NumOfCoins = 2 #number of coins
+NumOfCoins = 1 #number of coins
 
 def post_message(token, channel, text):
     """send messages to Slack"""
@@ -66,49 +66,49 @@ upbit = pyupbit.Upbit(access, secret)
 print("autotrade start")
 
 # send starting message
-post_message(myToken, "#breakthru", "AWS ma5 autotrade start")
+post_message(myToken, "#tradingbot", "AWS ma5 autotrade start")
 
 
 # start autotrade
 while True:
     try:
         now = datetime.datetime.now()
-        start_time = now.replace(hour=1, minute=0, second=0, microsecond=0)
-        end_time = now.replace(hour=8, minute=30, second=0, microsecond=0)
+        start_time = now.replace(hour=0, minute=30, second=0, microsecond=0)
+        end_time = now.replace(hour=10, minute=0, second=0, microsecond=0)
 
         if start_time < now < end_time - datetime.timedelta(seconds=10):
-            target_price = get_target_price("KRW-OMG", 0.5)
+            target_price = get_target_price("KRW-DOT", 0.5)
             print("Start Time",start_time)
             print("End Time", end_time)
             print("Target Price",target_price)
-            ma5 = get_ma5("KRW-OMG")
+            ma5 = get_ma5("KRW-DOT")
             print("ma5",ma5)
-            current_price = get_current_price("KRW-OMG")
+            current_price = get_current_price("KRW-DOT")
             print("Current Price",current_price)
 
             if target_price < current_price and ma5 < current_price:
                 krw = get_balance("KRW")
                 coins = krw / NumOfCoins
                 print("KRW", krw)
-                check = get_balance("OMG")
+                check = get_balance("DOT")
                 print("Num of coins", check)
-                #volatility = get_volatility("KRW-OMG")
+                #volatility = get_volatility("KRW-DOT")
                 #print("volatility")
                 if check == 0:
-                    buy_result = upbit.buy_market_order("KRW-OMG", coins * 0.9995) #TargetVolatility/volatility/NumOfCoins*krw*0.9995
-                    check = get_balance("OMG")
+                    buy_result = upbit.buy_market_order("KRW-DOT", coins * 0.9995) #TargetVolatility/volatility/NumOfCoins*krw*0.9995
+                    check = get_balance("DOT")
                     print("Bought", check)
-                    post_message(myToken, "#breakthru", "OMG buy : " +str(buy_result))
+                    post_message(myToken, "#tradingbot", "DOT buy : " +str(buy_result))
         else:
-            sell = get_balance("OMG")
-            if sell > 5000/get_current_price("KRW-OMG"):
-                sell_result = upbit.sell_market_order("KRW-OMG", sell)
-                current_price = get_current_price("KRW-OMG")
-                print("OMG sold at",current_price)
-                post_message(myToken, "#breakthru", "OMG sell : " +str(sell_result))
+            sell = get_balance("DOT")
+            if sell > 5000/get_current_price("KRW-DOT"):
+                sell_result = upbit.sell_market_order("KRW-DOT", sell)
+                current_price = get_current_price("KRW-DOT")
+                print("DOT sold at",current_price)
+                post_message(myToken, "#tradingbot", "DOT sell : " +str(sell_result))
         time.sleep(1)
     except Exception as e:
         print(e)
-        post_message(myToken, "#breakthru",e)
+        post_message(myToken, "#tradingbot",e)
         time.sleep(1)
 
