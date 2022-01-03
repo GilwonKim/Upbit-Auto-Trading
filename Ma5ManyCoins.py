@@ -74,12 +74,13 @@ post_message(myToken, "#breakthru", "VS ma5 autotrade start")
 while True:
     try:
         now = datetime.datetime.now()
-        start_time = now.replace(hour=0, minute=0, second=0, microsecond=0)
-        end_time = now.replace(hour=17, minute=50, second=0, microsecond=0)
+        start_time = now.replace(hour=19, minute=0, second=0, microsecond=0) #start at 7pm (2022.01.04)
+        start_time_mid = now.replace(hour=0, minute=0, second=0, microsecond=0) #start at 0:0am (2022.01.05)
+        end_time = now.replace(hour=8, minute=50, second=0, microsecond=0) #end at 8:50am (2022.01.05)
         krw = get_balance("KRW")
         BuyAmount = krw/len(CoinBuyList)
 
-        if start_time < now < end_time - datetime.timedelta(seconds=10):
+        if start_time < now or start_time_mid < now < end_time - datetime.timedelta(seconds=10):
             for CoinList in CoinBuyList:
                 target_price = get_target_price(CoinList, 0.5)
                 print("Start Time",start_time)
