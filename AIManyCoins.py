@@ -98,6 +98,7 @@ while True:
         start_time = now.replace(hour=19, minute=0, second=0, microsecond=0) #start at 7pm (2022.01.04)
         start_time_mid = now.replace(hour=0, minute=0, second=0, microsecond=0) #start at 0:0am (2022.01.05)
         end_time = now.replace(hour=8, minute=50, second=0, microsecond=0) #end at 8:50am (2022.01.05)
+        #end_time = start_time_mid.replace(hour=9, minute=0, second=0, microsecond=0)   
         krw = get_balance("KRW")
         BuyAmount = krw/len(CoinBuyList)
         schedule.run_pending()
