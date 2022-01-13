@@ -170,7 +170,7 @@ while True:
                     BuyThisAmount = MaScores * RevisedVolatility                        
                         
                     if check == 0:
-                        buy_result = upbit.buy_market_order(CoinList, BuyAmount * 0.9995) #TargetVolatility/volatility/NumOfCoins*krw*0.9995
+                        buy_result = upbit.buy_market_order(CoinList, BuyThisAmount * 0.9995)
                         check = get_balance(List)
                         print("Coin bought", check)
                         post_message(myToken, "#breakthru", "Coin buy : " +str(buy_result))
