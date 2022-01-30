@@ -10,7 +10,7 @@ myToken = "Your Slack API token"
 
 
 TargetVolatility = 0.05 #chose your target volatility as 5%
-CoinBuyList = ["KRW-GAS"] #chose your ticker as much as you want
+CoinBuyList = ["KRW-GAS"] #chose your ticker as many as you want
 
 
 def get_daily_ohlcv_from_base_new(ticker="KRW-BTC", base=0): #base time change fuction
@@ -122,7 +122,7 @@ while True:
         end_time = start_time_mid.replace(hour=8, minute=1, second=0, microsecond=0) #sell everything at 7:01am (2022.01.31)
 
         krw = get_balance("KRW")
-        BuyAmount = krw*0.01/len(CoinBuyList)
+        BuyAmount = krw/len(CoinBuyList)
 
         if start_time < now or start_time_mid < now < end_time - datetime.timedelta(seconds=10):
             for CoinList in CoinBuyList:
