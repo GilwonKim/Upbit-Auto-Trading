@@ -2,8 +2,9 @@ import time
 import pyupbit
 import datetime
 import requests
+import schedule
 import re
-import fbprophet import Prophet
+from fbprophet import Prophet
 
 access = "Your Upbit Acess Key"
 secret = "Your Upbit Secret Key"
