@@ -9,7 +9,7 @@ secret = "Your Upbit Secret Key"
 myToken = "Your Slack API token"
 
 
-TargetVolatility = 0.05 #chose your target volatility as 5%
+TargetVolatility = 0.04 #chose your dailiy target volatility as 4%
 CoinBuyList = ["KRW-GAS"] #chose your ticker as many as you want
 
 
@@ -161,7 +161,10 @@ while True:
                         ScoreMa20 = 1
 
                     MaScores = (ScoreMa3 + ScoreMa5 + ScoreMa10 + ScoreMa20) / 4 # divide by 4 represents the number of MAs
-                    RevisedVolatility = TargetVolatility / volatility * BuyAmount
+                    vol = TargetVolatility / volatility #if 'coin volatility' gets below 'target volatility', the result goes beyond 100%
+                    if vol > 1: #to make it equal or less than 100%
+                        vol = 1
+                    RevisedVolatility = vol * BuyAmount
                     BuyThisAmount = MaScores * RevisedVolatility
 
                     print("MaScores", MaScores)
