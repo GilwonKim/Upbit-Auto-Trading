@@ -10,7 +10,7 @@ myToken = "Your Slack API token"
 
 
 TargetVolatility = 0.04 #chose your dailiy target volatility as 4%
-CoinBuyList = ["KRW-GAS"] #chose your ticker as many as you want
+CoinBuyList = ["KRW-SOL","KRW-MATIC","KRW-ADA","KRW-DOT","KRW-OMG"] #chose your ticker as many as you want
 
 
 def get_daily_ohlcv_from_base_new(ticker="KRW-BTC", base=0): #base time change fuction
@@ -67,17 +67,23 @@ def get_ma5(ticker):
     ma5 = df['close'].rolling(5).mean().iloc[-1]
     return ma5
 
-def get_ma10(ticker):
-    """review ma10"""
+def get_ma8(ticker):
+    """review ma8"""
     df = get_daily_ohlcv_from_base_new(ticker, base=7) #change your base time to 1:00am
-    ma10 = df['close'].rolling(10).mean().iloc[-1]
-    return ma10
+    ma8 = df['close'].rolling(8).mean().iloc[-1]
+    return ma8
 
-def get_ma20(ticker):
-    """review ma20"""
+def get_ma13(ticker):
+    """review ma13"""
     df = get_daily_ohlcv_from_base_new(ticker, base=7) #change your base time to 1:00am
-    ma20 = df['close'].rolling(20).mean().iloc[-1]
-    return ma20
+    ma13 = df['close'].rolling(13).mean().iloc[-1]
+    return ma13
+
+def get_ma21(ticker):
+    """review ma21"""
+    df = get_daily_ohlcv_from_base_new(ticker, base=7) #change your base time to 1:00am
+    ma21 = df['close'].rolling(21).mean().iloc[-1]
+    return ma21
 
 def get_volatility(ticker):
     """volatility of the day"""
@@ -119,7 +125,7 @@ while True:
         now = datetime.datetime.now()
         start_time = now.replace(hour=19, minute=0, second=0, microsecond=0) #start at 7:00pm (2022.01.30)
         start_time_mid = now.replace(hour=0, minute=0, second=0, microsecond=0) #start at 0:0am (2022.01.05)
-        end_time = start_time_mid.replace(hour=7, minute=1, second=0, microsecond=0) #sell everything at 7:01am (2022.01.31)
+        end_time = start_time_mid.replace(hour=7, minute=30, second=0, microsecond=0) #sell everything at 7:01am (2022.01.31)
 
         krw = get_balance("KRW")
         BuyAmount = krw/len(CoinBuyList)
@@ -130,16 +136,18 @@ while True:
                 target_price = get_target_price(CoinList, k)
                 ma3 = get_ma3(CoinList)
                 ma5 = get_ma5(CoinList)
-                ma10 = get_ma10(CoinList)
-                ma20 = get_ma20(CoinList)
+                ma8 = get_ma8(CoinList)
+                ma13 = get_ma13(CoinList)
+                ma21 = get_ma21(CoinList)
                 current_price = get_current_price(CoinList)
 
                 print("k", k)
                 print("target price", target_price)
                 print("ma3", ma3)
                 print("ma5", ma5)
-                print("ma10", ma10)
-                print("ma20", ma20)
+                print("ma8", ma8)
+                print("ma13", ma13)
+                print("ma21", ma21)
 
 
                 if target_price < current_price:
@@ -148,19 +156,22 @@ while True:
                     check = get_balance(List)
                     ScoreMa3 = 0
                     ScoreMa5 = 0
-                    ScoreMa10 = 0
-                    ScoreMa20 = 0
+                    ScoreMa8 = 0
+                    ScoreMa13 = 0
+                    ScoreMa21 = 0
                     volatility = get_volatility(CoinList)
                     if ma3 < current_price:
                         ScoreMa3 = 1
                     if ma5 < current_price:
                         ScoreMa5 = 1
-                    if ma10 < current_price:
-                        ScoreMa10 = 1
-                    if ma20 < current_price:
-                        ScoreMa20 = 1
+                    if ma8 < current_price:
+                        ScoreMa8 = 1
+                    if ma13 < current_price:
+                        ScoreMa13 = 1
+                    if ma21 < current_price:
+                        ScoreMa21 = 1
 
-                    MaScores = (ScoreMa3 + ScoreMa5 + ScoreMa10 + ScoreMa20) / 4 # divide by 4 represents the number of MAs
+                    MaScores = (ScoreMa3 + ScoreMa5 + ScoreMa8 + ScoreMa13 + ScoreMa21) / 5 # divide by 5 represents the number of MAs
                     vol = TargetVolatility / volatility #if 'coin volatility' gets below 'target volatility', the result goes beyond 100%
                     if vol > 1: #to make it equal or less than 100%
                         vol = 1
